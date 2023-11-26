@@ -286,8 +286,7 @@ static GENERIC_ITER_NEXT(pl_list_get_next, struct playlist, node);
 static void pl_list_sel_changed(void)
 {
 	struct list_head *list = pl_list_win->sel.data1;
-	struct playlist *pl = pl_from_list(list);
-	pl_visible = pl;
+	pl_visible = pl_from_list(list);
 	editable_take_ownership(&pl_visible->editable);
 }
 
@@ -843,8 +842,10 @@ void pl_rand(void)
 
 void pl_win_mv_after(void)
 {
-	if (pl_cursor_in_track_window)
+	if (pl_cursor_in_track_window) {
 		editable_move_after(&pl_visible->editable);
+		//window_changed(pl_editable_shared.win);
+	}
 }
 
 void pl_win_mv_before(void)

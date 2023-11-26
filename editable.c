@@ -185,6 +185,15 @@ void editable_toggle_mark(struct editable *e)
 	}
 }
 
+/**
+ * move_item - remove a track from an editable and add it to a given list
+ * @e: the editable to modify
+ * @head: the list to add the item to
+ * @item: the track being removed from e
+ *
+ * This is used by move_sel to collect the marked/selected tracks into
+ * a temporary list before reinserting them at the new position.
+ */
 static void move_item(struct editable *e, struct list_head *head, struct list_head *item)
 {
 	struct simple_track *t = to_simple_track(item);
@@ -247,8 +256,8 @@ static void move_sel(struct editable *e, struct list_head *after)
 	editable_track_to_iter(e, to_simple_track(after->next), &iter);
 
 	if (editable_owns_shared(e)) {
-		window_changed(e->shared->win);
 		window_set_sel(e->shared->win, &iter);
+		window_changed(e->shared->win);
 	}
 }
 
